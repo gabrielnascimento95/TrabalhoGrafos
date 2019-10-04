@@ -5,14 +5,14 @@
 using namespace std;
 
 /**
- * Gera uma matriz Distancia que sera utilizada como input no algoritmo de Floyd Warshall
+ * Gera uma matriz Distancia que será utilizada como input no algoritmo de Floyd Warshall
  * @param Grafo
  * @return void
 */
 
 void Floyd::matrizDistancia(Grafo *grafo)
 {
-    int n = grafo->listaNo.size(); ///numero devertices
+    int n = grafo->listaNo.size(); ///vértices
     int id1, id2;
     id1=id2=0;
     Aresta* aresta;
@@ -53,48 +53,48 @@ void Floyd::floyd(Grafo *grafo)
 {
     int V = grafo->listaNo.size();
 
-    ///primeiro chamamos a funcao matrizDistancia para popular a matriz mDistancia
+    ///popular a matriz mDistancia
     matrizDistancia(grafo);
 
-    ///matriz que conteria as menores distancias entre todos os pares de vertices
+    ///matriz com menores distancias entre tuplas de vértices
     int dist[V][V], i, j, k;
 
-    ///inicializando os valores de dist com os mesmos valores de mDistancia
+    ///inicializa os valores de dist com os mesmos valores de mDistancia
     for (i = 0; i < V; i++)
         for (j = 0; j < V; j++)
             dist[i][j] = mDistancia[i][j];
 
     for (k = 0; k < V; k++)
     {
-        /// pega todos os vertices como fonte, um a um
+        ///todos os vertices como fonte
         for (i = 0; i < V; i++)
         {
-            /// pega todos os vertices como destinacao para a fonte selecionada
+            ///todos os vertices como destinacao para a fonte
             for (j = 0; j < V; j++)
             {
-                /// se o indice k eh o caminho mais curto de i a j, entao atualizamos o valor de dist[i][j]
+                ///verifica se k é o caminho mais curto entre i e j, se sim, atualizamos o valor da distancia
                 if (dist[i][k] + dist[k][j] < dist[i][j])
                     dist[i][j] = dist[i][k] + dist[k][j];
             }
         }
     }
-    ///atulizando os valores de mDistancia com os mesmos valores de dist
+    ///atulizar os valores de mDistancia
     for (i = 0; i < V; i++)
         for (j = 0; j < V; j++)
             mDistancia[i][j] = dist[i][j];
 }
 
 /**
- * imprimie a solucao de Floyd - funcao que eh chamada pelo menu principal
+ * imprimie a solucao de Floyd - funcao que é chamada pelo menu principal
  * @param
  * @return void
 */
 void Floyd::imprimeFloyd(Grafo *grafo)
 {
-    /// primeiramente chamamos a funcao que monta a matriz com as menores distancias - floyd()
+    ///montar a matriz com as menores distancias - floyd()
     floyd(grafo);
 
-    /// executamos a impressao
+    ///a impressao
     cout<<"A seguinte matriz apresenta as menores distancias entre cada par de vertices" << endl;
 
     int V = grafo->listaNo.size();

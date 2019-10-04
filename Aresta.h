@@ -1,6 +1,4 @@
-//
-// Created by gabri on 03/10/2019.
-//
+
 
 #ifndef GRAFOS2_ARESTA_H
 #define GRAFOS2_ARESTA_H

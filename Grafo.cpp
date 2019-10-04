@@ -260,7 +260,7 @@ void Grafo::auxRemoveVertice(No* noASerRemovido)
 }
 void Grafo::removeTodasAdjacenciasDeUmNo(No* noASerRemovido)
 {
-    while(!noASerRemovido->nosAdjacentes.empty())   /// vai retirando os nos adjacentes ate o vetor nosAdjacentes estiver vazio
+    while(!noASerRemovido->nosAdjacentes.empty())   ///retira os nós adjacentes até o vetor nosAdjacentes ser vazio
     {
         noASerRemovido->nosAdjacentes.pop_back();
     }
@@ -270,7 +270,7 @@ void Grafo::removeTodasAdjacenciasDeUmNo(No* noASerRemovido)
  * Inicia o caminhamento em profundidade, que chama a função auxiliar aprofunda(No* no)
  * @return void
 */
-void Grafo::caminhamentoEmProfundidade() ///funcao principal, que chama a funcao que, de fato, faz o caminhamento
+void Grafo::caminhamentoEmProfundidade() /// chama a funcao que faz o caminhamento
 {
     setVisitadoEmTodosNos(false);
     for(auto i : listaNo)
@@ -322,7 +322,7 @@ void Grafo::aprofunda_ComponenteConexa(No* no)
  * @param id id do nó a partir do qual o caminhamento começa
  * @return void
 */
-void Grafo::caminhamentoEmLargura(int id)   ///funcao principal, que chama a funcao que, de fato, faz o caminhamento
+void Grafo::caminhamentoEmLargura(int id)   ///chama a funcao que faz o caminhamento em largura
 {
     setVisitadoEmTodosNos(false);
 
@@ -330,7 +330,7 @@ void Grafo::caminhamentoEmLargura(int id)   ///funcao principal, que chama a fun
     vector<No*> *fila = new vector<No*>;
     fila->push_back(noInicial);
 
-    caminhaEmLargura(*fila); ///chama funcao auxiliar, que faz o caminhamento em largura
+    caminhaEmLargura(*fila); ///funcao auxiliar que faz o caminhamento em largura
 }
 
 /**
@@ -351,7 +351,7 @@ void Grafo::caminhaEmLargura(vector<No*> fila)
             if(!adjacenteAoAtual->getVisitado())
             {
                 int contador = count(fila.begin(), fila.end(), adjacenteAoAtual); /// verifica se adjacenteAoAtual está na fila
-                if(contador == 0) /// nao permite adicionar um mesmo elemento mais de uma vez na fila
+                if(contador == 0) /// nao permite adicionar um elemento repetido
                 {
                     fila.push_back(adjacenteAoAtual);
                     cout << "Adicionando na fila o no " << adjacenteAoAtual->id << endl;
@@ -466,8 +466,8 @@ void Grafo::ordenacaoTopologica()
     int m =0; // arestas
     int grafo[n];
     int grau[n];
-    int lista[n]; // dos vï¿½rtices de grau zero
-    int listaPos = 0; //posiï¿½ï¿½o de inserï¿½ï¿½o na lista
+    int lista[n]; // vertices de grau zero
+    int listaPos = 0; //posição de inserção na lista
     No *atual;
     atual = NULL;
     for(int i = 0; i<n; i++)
@@ -480,19 +480,19 @@ void Grafo::ordenacaoTopologica()
 
     while(listaPos < n)
     {
-        ///--------------------------------quando o grau minimo nï¿½o ï¿½ 0 -------------------------------------------///
+        ///quando o grau minimo é diferente de 0
         while(grauMinimo(grau,n)!= 0 && grauMinimo(grau,n)>0)
         {
             for(int i = 0; i< n; i++)
             {
-                if(grau[i] == grauMinimo(grau,n))  /// se o grau for o grau minimo
+                if(grau[i] == grauMinimo(grau,n))  ///grau minimo
                 {
-                    lista[listaPos] = grafo[i]; ///coloco o vertice na posiï¿½ï¿½o listaPos da lista
-                    listaPos++; /// atualizo listaPos para a proxima inserï¿½ï¿½o
+                    lista[listaPos] = grafo[i]; ///coloco o vertice na posição listaPos da lista
+                    listaPos++; /// atualiza lista para a proxima inserção
                     for(int t = 0; t < n; t++)
                     {
                         if(listaNo[t]->id == grafo[i])
-                            atual = listaNo[t]; /// No atual recebe o No com o id
+                            atual = listaNo[t];
                     }
 
                     for(unsigned int j = 0; j< atual->nosAdjacentes.size(); j++) /// para todos os adjacentes ao no com grau mï¿½nimo
@@ -512,32 +512,32 @@ void Grafo::ordenacaoTopologica()
         }
 
 
-        ///--------------------------------quando o grau minimo ï¿½ 0 -------------------------------------------///
+        ///grau minimo é 0
         for(int i = 0; i< n; i++)
         {
-            if(grau[i] == 0)  /// se o grau for 0
+            if(grau[i] == 0)
             {
-                lista[listaPos] = grafo[i]; ///coloco o vertice na posiï¿½ï¿½o listaPos da lista
-                listaPos++; /// atualizo listaPos para a proxima inserï¿½ï¿½o
+                lista[listaPos] = grafo[i];
+                listaPos++; /// atualizo lista para a proxima inserção
                 for(int t = 0; t < n; t++)
                 {
                     if(listaNo[t]->id == grafo[i])
-                        atual = listaNo[t]; /// No atual recebe o No com o id
+                        atual = listaNo[t];
                 }
 
                 for(unsigned int j = 0; j< atual->nosAdjacentes.size(); j++) /// para todos os adjacentes ao no com grau 0
                 {
-                    for(int k =0; k<n; k++)  ///percorro todos os vevrtices do grafo[] procurando alguem com aquele id
+                    for(int k =0; k<n; k++)  ///for para procurar todos os vertices alguem com aquele id
                     {
                         if(grafo[k] == atual->nosAdjacentes[j]->id)/// se o vetice tiver aquele id
-                            grau[k] = grau[k]- 1;///diminuo 1 do grau do vertice que estï¿½ na posiï¿½ï¿½o k, sabendo que recebia uma aresta do vertce atual
+                            grau[k] = grau[k]- 1;///diminuo 1 do grau do vertice que esteja na posição k, sabendo que recebia uma aresta do vertce atual
                     }
 
                 }
 
 
-                grafo[i] = -1; // retiro o vertice do grafo[]
-                grau[i] = -1; // coloco um grau nulo para as proximas iteraï¿½ï¿½es
+                grafo[i] = -1; /// retira o vertice do grafo[]
+                grau[i] = -1; /// coloco um grau nulo para as proximas iterações
             }
         }
     }
@@ -613,9 +613,9 @@ void Grafo::matrizDistancia()
 
     /// ------------------------Entendendo o cÃ³digo abaixo -----------------------------------------------------------------
     /// caso seja adjacente, pega a distancia (peso) da aresta entre 2 nohs, caso nao seja, seta 9999999999
-    /// com grafos orientados, quando um nÃ³ a, Ã© direcionado ao b, se tentarmos pegar a adjacencia de b para a, seria como se
-    /// fossem nÃ£o adjacentes, sendo assim, a distancia serÃ¡ setada como 9999999999
-    /// caminho de um noh ao mesmo noh recebem 0
+    /// com grafos orientados, quando um nó a, não direcionado ao b, se tentarmos pegar a adjacencia de b para a, seria como se
+    /// fossem não adjacentes, sendo assim, a distancia será setada como 9999999999
+    /// caminho de um nó ao mesmo nó recebem 0
     /// --------------------------------------------------------------------------------------------------------------------
     for(int i=0; i<n; i++)
     {
@@ -625,11 +625,10 @@ void Grafo::matrizDistancia()
             {
                 mDistancia[i][j]=0;
             }
-            else if(listaNo[i]->verificaAdjacencia(listaNo[j]) && i!=j) /// no caso, ainda precisamos implementar uma funcao que
+            else if(listaNo[i]->verificaAdjacencia(listaNo[j]) && i!=j) /// no caso, ainda precisamos implementar uma funcao que verifica se existe um caminho entre 2 nohs, e nao apenas
             {
-                /// verifica se existe um caminho entre 2 nohs, e nao apenas
-                id1=listaNo[i]->id;                               /// se os 2 sao adjacentes... sendo assim, este metodo
-                id2=listaNo[j]->id;                               /// matrizDistancia, ainda nao funciona como deveria
+                id1=listaNo[i]->id;                               /// se os 2 sao adjacentes sendo assim, este metodo matrizDistancia, ainda nao funciona como deveria
+                id2=listaNo[j]->id;
                 aresta = getAresta(id1, id2);
                 pesoAresta= aresta->peso;
                 mDistancia[i][j]=pesoAresta;
@@ -691,7 +690,7 @@ void Grafo:: floyd()
     }
 }
 
-/// Verifica se um grafo eh conexo ou nao
+/// Verifica se um grafo é conexo ou nao
 bool Grafo::ehConexo()
 {
     for(auto no : this->listaNo)
