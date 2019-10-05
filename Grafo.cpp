@@ -318,7 +318,6 @@ void Grafo::aprofunda_ComponenteConexa(No* no)
 }
 
 /**
- * Inicia o caminhamento em largura, que chama a função auxiliar caminhaEmLargura(vector<No*> fila)
  * @param id id do nó a partir do qual o caminhamento começa
  * @return void
 */
@@ -334,7 +333,6 @@ void Grafo::caminhamentoEmLargura(int id)   ///chama a funcao que faz o caminham
 }
 
 /**
- * Função que faz, de fato, o caminhamento
  * @param fila estrutura que vai armazenar os nós que serão visitados
  * @return void
 */
@@ -505,8 +503,8 @@ void Grafo::ordenacaoTopologica()
 
                     }
 
-                    grafo[i] = -1; // retiro o vertice do grafo[]
-                    grau[i] = -1; // coloco um grau nulo para as proximas iteraï¿½ï¿½es
+                    grafo[i] = -1; /// retiro o vertice do grafo[]
+                    grau[i] = -1; /// coloco um grau nulo para as proximas iteraï¿½ï¿½es
                 }
             }
         }
@@ -611,12 +609,6 @@ void Grafo::matrizDistancia()
     Aresta* aresta;
     int pesoAresta=0;
 
-    /// ------------------------Entendendo o cÃ³digo abaixo -----------------------------------------------------------------
-    /// caso seja adjacente, pega a distancia (peso) da aresta entre 2 nohs, caso nao seja, seta 9999999999
-    /// com grafos orientados, quando um nó a, não direcionado ao b, se tentarmos pegar a adjacencia de b para a, seria como se
-    /// fossem não adjacentes, sendo assim, a distancia será setada como 9999999999
-    /// caminho de um nó ao mesmo nó recebem 0
-    /// --------------------------------------------------------------------------------------------------------------------
     for(int i=0; i<n; i++)
     {
         for(int j=0; j<n; j++)
@@ -640,11 +632,87 @@ void Grafo::matrizDistancia()
         }
     }
 }
+/**
+ * Passamos como parametro uma flag para informar qual tipo de fecho se trata
+ * @param vertice_inicial
+ * @param direto
+ */
+void Grafo::fecho_transitivo(int vertice_inicial, bool direto) {
+    //Vetor de structs
+    vector<vertice_nivel> vetor_niveis;
+    int nivel_atual = 0;
+    bool verifica = true;
+
+    //Inicialização do vetor com um tipo vertice_nivel
+    for(int i=0;i<vertices;i++){
+        vertice_nivel aux;
+        aux.nivel = -1;
+        aux.verificado = false;
+        vetor_niveis.push_back(aux);
+    }
+
+    //Valor passado como parâmetro é o vértice inicial (recebe nível 0)
+    vetor_niveis.at(vertice_inicial).nivel = 0;
+    vetor_niveis.at(vertice_inicial).verificado = true;
+    nivel_atual++;
+    do{
+        if(direto == true){
+            for(int i=0;i<vertices;i++){
+                if(this->matriz[vertice_inicial][i] == 1 && vetor_niveis.at(i).nivel == -1){
+                    vetor_niveis.at(i).nivel = nivel_atual;
+                }
+            }
+        }else{
+            for(int i=0;i<vertices;i++){
+                if(this->matriz[i][vertice_inicial] == 1 && vetor_niveis.at(i).nivel == -1){
+                    vetor_niveis.at(i).nivel = nivel_atual;
+                }
+            }
+        }
+        verifica = false;
+        //Verificação do nível atual;
+        for(int i=0;i<vertices;i++){
+            if(vetor_niveis.at(i).verificado == false){
+                if((vetor_niveis.at(i).nivel < nivel_atual) && (vetor_niveis.at(i).nivel != -1)){
+                    nivel_atual = vetor_niveis.at(i).nivel;
+                }
+            }
+        }
+        //Seleção do próximo vertice a ser verificado
+        for(int i=0;i<vertices;i++){
+            vertice_nivel atual = vetor_niveis.at(i);
+            if((atual.nivel == nivel_atual) && (atual.verificado == false)){
+                vertice_inicial = i;
+                //cout<<endl<<i<<endl;
+                vetor_niveis.at(i).verificado = true;
+                nivel_atual++;
+                verifica = true;
+                break; // FOR EXIT
+            }
+        }
+    }while(verifica);
+
+    if(direto){
+        cout<< endl << " FECHO TRANSITIVO DIRETO" << endl;
+        cout<< "  -> Vetor de Niveis: ";
+        for(int i=0;i<vertices;i++){
+            setVet_transitivo_direto(vetor_niveis);
+            cout << "\t" << this->getVet_transitivo_direto()[i].nivel;
+        }
+    }else{
+        cout<< endl << endl << " FECHO TRANSITIVO INVERSO" << endl;
+        cout<< "  -> Vetor de Niveis: ";
+        for(int i=0; i<this->vertices; i++){
+            setVet_transitivo_inverso(vetor_niveis);
+            cout << "\t" << vet_transitivo_inverso[i].nivel;
+        }
+        cout<<endl;
+    }
 
 
+}
 
-
-/// Encontra o menor caminho entre todos os pares usando o algorÃ­tmo de Floyd Warshall
+/// Encontra o menor caminho entre todos os pares usando o algorÃ­tmo de Floyd
 void Grafo:: floyd()
 {
     int V = listaNo.size();

@@ -12,6 +12,14 @@
 #include <time.h>
 #include <fstream>
 
+using namespace std;
+
+struct vertice_nivel
+{
+    int nivel;
+    bool verificado;
+};
+
 class Grafo
 {
 public:
@@ -58,13 +66,21 @@ public:
     void printSequenciaDeGraus();
     void preenche(No *v, stack<No*>& pilha);
     void floyd();
+    void fecho_transitivo(int vertice_inicial, bool direto);
     bool ehConexo();
+    vector<vertice_nivel> getVet_transitivo_direto() const;
+    void setVet_transitivo_direto(const vector<vertice_nivel> &value);
+    vector<vertice_nivel> getVet_transitivo_inverso() const;
+    void setVet_transitivo_inverso(const vector<vertice_nivel> &value);
 
 private:
     int ordem;
     int grau;
     bool noPonderado;
-
+    int vertices;
+    bool **matriz;
+    vector<vertice_nivel> vet_transitivo_direto;
+    vector<vertice_nivel> vet_transitivo_inverso;
 };
 
 
